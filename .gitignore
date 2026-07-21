@@ -1,0 +1,8 @@
+@"
+node_modules/
+.next/
+.open-next/
+.env*.local
+.wrangler/
+*.log
+"@ | Out-File -Encoding utf8 .gitignore
