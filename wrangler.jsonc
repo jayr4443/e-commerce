@@ -1,14 +1,20 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "demo-e-commerce",
+  "main": ".open-next/worker.js",
   "compatibility_date": "2026-07-20",
-  "compatibility_flags": ["nodejs_compat"],
-  "observability": {
-    "enabled": true,
-  },
-  "main": ".open-next/worker/index.mjs",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS",
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "demo-e-commerce",
+    },
+  ],
+  "observability": {
+    "enabled": true,
   },
 }
