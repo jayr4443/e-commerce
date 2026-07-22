@@ -10,6 +10,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { HeroVideo } from "@/components/store/hero-video";
 import { ProductCard } from "@/components/store/product-card";
 import { SectionHeading } from "@/components/store/section-heading";
 import { getProductCategories, getProducts } from "@/lib/store/products";
@@ -49,13 +50,9 @@ export default async function HomePage() {
     <main>
       <section className="mx-auto max-w-[1500px] px-4 pt-4 sm:px-6">
         <div className="hero-grid relative min-h-[78vh] overflow-hidden rounded-[2rem] bg-neutral-950 text-white sm:rounded-[3rem]">
-          <Image
-            src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=2200&q=90"
-            alt="Modern concept store interior"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-55"
+          <HeroVideo
+            src="/videos/hero.mp4"
+            poster="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=2200&q=90"
           />
 
           <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ThemeProvider } from "next-themes";
 import { SiteFooter } from "@/components/store/site-footer";
 import { SiteHeader } from "@/components/store/site-header";
 import "./globals.css";
@@ -18,18 +17,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body className="min-h-screen bg-white text-neutral-950 antialiased">
-        <ThemeProvider
-          attribute="class"
-          forcedTheme="light"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <SiteHeader />
-          {children}
-          <SiteFooter />
-        </ThemeProvider>
+        <SiteHeader />
+        {children}
+        <SiteFooter />
       </body>
     </html>
   );
