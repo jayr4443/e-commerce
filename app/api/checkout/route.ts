@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import Stripe from "stripe";
 
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/utils/supabase/admin";
@@ -35,6 +34,8 @@ export async function POST(request: Request) {
         { status: 500 },
       );
     }
+
+    const { default: Stripe } = await import("stripe");
 
     const stripe = new Stripe(stripeSecretKey, {
       httpClient: Stripe.createFetchHttpClient(),
