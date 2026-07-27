@@ -1,3 +1,4 @@
+export const runtime = "edge";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -10,7 +11,9 @@ if (!stripeSecretKey) {
   throw new Error("Missing STRIPE_SECRET_KEY.");
 }
 
-const stripe = new Stripe(stripeSecretKey);
+const stripe = new Stripe(stripeSecretKey, {
+  httpClient: Stripe.createFetchHttpClient(),
+});
 
 type CheckoutBody = {
   productId?: number;
