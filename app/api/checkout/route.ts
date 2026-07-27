@@ -5,16 +5,6 @@ import Stripe from "stripe";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/utils/supabase/admin";
 
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-
-if (!stripeSecretKey) {
-  throw new Error("Missing STRIPE_SECRET_KEY.");
-}
-
-const stripe = new Stripe(stripeSecretKey, {
-  httpClient: Stripe.createFetchHttpClient(),
-});
-
 type CheckoutBody = {
   productId?: number;
   quantity?: number;
@@ -30,6 +20,27 @@ type SelectedColor = {
 
 export async function POST(request: Request) {
   try {
+    // Moved inside the handler: if this is missing, we now return a JSON
+    // error response instead of crashing the whole edge function at
+    // module-load time (which is what produced Cloudflare's plain-text
+    // "Internal Server Error" page and broke res.json() on the client).
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+
+    if (!stripeSecretKey) {
+      console.error("Missing STRIPE_SECRET_KEY in this environment.");
+
+      return NextResponse.json(
+        {
+          error: "Checkout is temporarily unavailable. Please try again later.",
+        },
+        { status: 500 },
+      );
+    }
+
+    const stripe = new Stripe(stripeSecretKey, {
+      httpClient: Stripe.createFetchHttpClient(),
+    });
+
     const body = (await request.json()) as CheckoutBody;
 
     const productId = Number(body.productId);
